@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)http://demo.cssmoban.com/cssthemes4/btts_53_bs-transparent/index.html -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>art-template模板引擎测试</title>
+    <!-- BOOTSTRAP CORE STYLE CSS -->
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <!-- VEGAS SLIDESHOW STYLE CSS -->
+    <link href="/stylesheets/jquery.vegas.min.css" rel="stylesheet">
+    <!-- FONTAWESOME STYLE CSS -->
+    <link href="/stylesheets/font-awesome.min.css" rel="stylesheet">
+    <!-- CUSTOM STYLE CSS -->
+    <link href="/stylesheets/style.css" rel="stylesheet">
+    <!-- GOOGLE FONT -->
+    <link href="/stylesheets/custom-font.css" rel="stylesheet" type="text/css">
+
+</head>
+<body data-spy="scroll" data-target="#menu" style="">
+<img class="vegas-background" src="/images/1.jpg"
+     style="position: fixed; left: 0px; top: -157.5px; width: 1366px; height: 911px; bottom: auto; right: auto;">
+<div class="vegas-overlay"
+     style="margin: 0px; padding: 0px; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; background-image: url(&quot;../images/03.png&quot;);"></div>
+
+<!--页头-->
+{{include 'header'}}
+<div id="home">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 ">
+                <div id="carousel-slider" data-ride="carousel" class="carousel slide">
+
+                    <div class="carousel-inner">
+                        <div class="item active">
+
+                            <h1> Explore This Template Design </h1>
+                        </div>
+                        <div class="item">
+                            <h1> THIS TEMPLATE IS HANDMADE</h1>
+                        </div>
+                        <div class="item">
+                            <h1> AWESOMENESS JUST FOR YOU</h1>
+                        </div>
+                    </div>
+                    <!--小圆点-->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-slider" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-slider" data-slide-to="1" class=""></li>
+                        <li data-target="#carousel-slider" data-slide-to="2" class=""></li>
+                    </ol>
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2  scrollclass">
+
+
+                <p>
+                    Lorem ipsumdolor sitamet, consect adipiscing elit
+                    Lorem ipsumdolor sitamet, consect adipiscing elit
+
+                </p>
+                <br>
+                <a href="http://demo.cssmoban.com/cssthemes4/btts_53_bs-transparent/index.html#about"
+                   class="btn  btn-lg custom-btn-1"><i class="fa fa-home"></i>ABOUT </a>
+                <a href="http://demo.cssmoban.com/cssthemes4/btts_53_bs-transparent/index.html#services"
+                   class="btn  btn-lg custom-btn-1"><i class="fa fa-comments-o"></i> SERVICES </a>
+                <a href="http://demo.cssmoban.com/cssthemes4/btts_53_bs-transparent/index.html#contact"
+                   class="btn btn-lg custom-btn-1"><i class="fa fa-globe"></i> CONTACT </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--HOME SECTION END-->
+
+<section id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2  text-center">
+                <h2 onclick="openModal()">添加成员</h2>
+                <p>
+                    Lorem ipsumdolor sitamet, consect adipiscing elit
+                    Lorem ipsumdolor sitamet, consect adipiscing elit.
+                    Lorem ipsumdolor sitamet, consect adipiscing elit.
+                    Lorem ipsumdolor sitamet, consect adipiscing elit.
+                    Lorem ipsumdolor sitamet, consect adipiscing elit
+
+                </p>
+            </div>
+        </div>
+        <div class="row ">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>电话</th>
+                    <th>出生时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{each userList}}
+                <tr>
+                    <td>{{$value.name}}</td>
+                    <td>{{$value.sex}}</td>
+                    <td>{{$value.phone}}</td>
+                    <td>{{$value.birthday}}</td>
+                    <td><a href="/layout/delUser/{{@$value._id}}">删除</a>  <a onclick="openModalByUpdate('{{@$value._id}}')" href="javascript:void(0)">修改</a></td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</section>
+<!--ABOUT SECTION END-->
+
+<!--页脚-->
+{{include 'footer'}}
+<!-- JAVASCRIPT FILES PLACED AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
+<!-- CORE JQUERY  -->
+<script src="/javascripts/jquery-1.10.2.js"></script>
+<!-- BOOTSTRAP SCRIPTS  -->
+<script src="/javascripts/bootstrap.js"></script>
+<!-- EASING SCROLL SCRIPTS PLUGIN  -->
+<script src="/javascripts/jquery.vegas.min.js"></script>
+<!-- VEGAS SLIDESHOW SCRIPTS  -->
+<script src="/javascripts/jquery.easing.min.js"></script>
+<!-- CUSTOM SCRIPTS  -->
+<script src="/javascripts/custom.js"></script>
+
+<!--模态框-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #1b1a1aa1">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="name">
+                            <input type="text" class="form-control" style="display: none" name="_id">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">性别</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="sex" id="inlineRadio2" value="男"> 男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="sex" id="inlineRadio3" value="女"> 女
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="phone">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="">出生年月</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" name="birthday">
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="addUser()">提交</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+</body>
+<div style="width: 32px !important; height: 32px !important; display: none; background: rgb(255, 255, 255) !important; border-radius: 16px !important; box-shadow: rgb(136, 136, 136) 4px 4px 8px !important; position: absolute !important; z-index: 2147483647 !important;">
+    <svg href="javascript:void(0)" style="width:24px;height:24px;margin:4px!important;" width="24" height="24"
+         viewBox="0 0 768 768">
+        <path d="M672 640.5v-417c0-18-13.5-31.5-31.5-31.5h-282l37.5 129h61.5v-33h34.5v33h115.5v33h-40.5c-10.5 40.5-33 79.5-61.5 112.5l87 85.5-22.5 24-87-85.5-28.5 28.5 25.5 88.5-64.5 64.5h225c18 0 31.5-13.5 31.5-31.5zM447 388.5c7.5 15 19.5 34.5 36 54 39-46.5 49.5-88.5 49.5-88.5h-127.5l10.5 34.5h31.5zM423 412.5l19.5 70.5 18-16.5c-15-16.5-27-34.5-37.5-54zM355.5 339c0-7.381-0.211-16.921-3-22.5h-126v49.5h70.5c-4.5 19.5-24 48-67.5 48-42 0-76.5-36-76.5-78s34.5-78 76.5-78c24 0 39 10.5 48 19.5l3 1.5 39-37.5-3-1.5c-24-22.5-54-34.5-87-34.5-72 0-130.5 58.5-130.5 130.5s58.5 130.5 130.5 130.5c73.5 0 126-52.5 126-127.5zM640.5 160.5c34.5 0 63 28.5 63 63v417c0 34.5-28.5 63-63 63h-256.5l-31.5-96h-225c-34.5 0-63-28.5-63-63v-417c0-34.5 28.5-63 63-63h192l28.5 96h292.5z"
+              style="fill:#3e84f4;"></path>
+    </svg>
+</div>
+
+<script type="text/javascript">
+    function openModal() {
+        $(".form-horizontal input[name='_id']").val("")
+        $('#myModal').modal('toggle')
+    }
+    function addUser() {
+        console.log($(".form-horizontal").serialize())
+        var url = ""
+        if ($(".form-horizontal input[name='_id']") == "") {
+            url ="/layout/addUser";
+        }else{
+            url ="/layout/udpUser";
+        }
+        $.ajax({
+            url: url,
+            type: 'POST', /*POST或者GET最好是大写,否则可能报405错*/
+            data: $(".form-horizontal").serialize(),
+            success: function (ret) {
+                if (ret.status == 1){
+                    $('#myModal').modal('toggle')
+                    location.reload()
+                }else {
+                    alert("添加失败")
+                }
+
+            },
+            error: function () {
+
+            }
+
+        });
+    }
+
+    function openModalByUpdate(_id) {
+        $.ajax({
+            url: '/layout/getUserDetail?_id=' + _id,
+            type: 'get',
+            success:function (data) {
+                $(".form-horizontal input[name='name']").val(data.name)
+                $(".form-horizontal input[name='phone']").val(data.phone)
+                $(".form-horizontal input[name='_id']").val(data._id)
+                $(".form-horizontal input[name='birthday']").val(data.birthday)
+                $(".form-horizontal input[name='sex'][value="+ data.sex +"]").attr("checked",true);
+                $('#myModal').modal('toggle')
+            },
+            error:function () {
+
+            }
+        });
+    }
+</script>
+</html>
