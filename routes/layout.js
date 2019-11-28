@@ -1,5 +1,5 @@
-var router = require('koa-router')();
-mongoDB = require('../modules/mongo.js')
+let router = require('koa-router')();
+mongoDB = require('../modules/mongo_config.js')
 
 /**
  * 需要注意的是,有时候明明路径写对了,但却抛出了404错误,原因是post请求接收到了数据

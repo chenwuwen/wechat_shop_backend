@@ -1,7 +1,7 @@
 const MongoDB = require('mongodb');
 const MongoClient = MongoDB.MongoClient;
 const ObjectID = MongoDB.ObjectID;
-dbCfg = require('./config')
+dbCfg = require('./config').MONGO_CONFIG
 
 /**
  * 关于mongo中的角色
@@ -20,21 +20,21 @@ dbCfg = require('./config')
 /**
  * 连接mongo类
  */
-class Mongo {
+class MongoConfig {
 
     /**
      * 静态方法 单例模式
      * 连接数据库比较耗费性能
      * 解决 多次实例化时 实例不共享[即 数据库连接不共享]
-     * @returns {MongoDB}
+     * @returns {MongoConfig}
      */
     static getInstance() {
-        if (!Mongo.instance) {
+        if (!MongoConfig.instance) {
             console.log("静态方法======>初始化数据库连接");
-            Mongo.instance = new Mongo()
+            MongoConfig.instance = new MongoConfig()
         }
         console.log("静态方法======>返回已存在的数据库连接");
-        return Mongo.instance
+        return MongoConfig.instance
     }
 
     /**
@@ -184,5 +184,5 @@ class Mongo {
 //     console.log(data)
 // })
 
-module.exports = Mongo.getInstance()
+// module.exports = MongoConfig.getInstance()
 

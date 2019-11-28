@@ -12,14 +12,14 @@ const art_template = require('koa-art-template');
  */
 const app = new Koa()
 /**
- * 引入实例化路由
+ * 引入实例化路由 根路由
  */
 const router = new Router()
 
 /**
  * 配置Koa-Session中间件参数
  */
-app.keys = ['some secret hurr']; /*cookie的签名*/
+app.keys = ['some secret sign']; /*cookie的签名*/
 const CONFIG = {
     key: 'koa:sess', //cookie key (default is koa:sess)
     maxAge: 86400000, // cookie 的过期时间 maxAge in ms (default is 1 days)
@@ -44,7 +44,7 @@ art_template(app, {
  * 属于应用级中间件
  * app.use() 可以由两个参数,两个参数,表示匹配某个路由,一个参数表示匹配所有路由
  */
-app.use(async(ctx, next) => {
+app.use(async (ctx, next) => {
     // console.log("Koa中间件----->进入路由之前-----执行-----》")
     // 下面这行代码表示在中间件配置公共的信息,那么在任何路由都可以访问到这个属性
     ctx.state.info = "《看云》"
@@ -55,7 +55,7 @@ app.use(async(ctx, next) => {
     ctx.cookies.set('name', 'kanyun', {
         maxAge: 60 * 60 * 1000
     })
-    ctx.session.name='陈无问'
+    ctx.session.name = '陈无问'
     // console.log(ctx.session.name)
     let user = ctx.cookies.get('name')
     // console.log(user);
@@ -66,25 +66,40 @@ app.use(async(ctx, next) => {
  * ctx 上下文 context 包含了request和response等信息
  */
 
-router.get("/", async(ctx) => {
+router.get("/", async (ctx) => {
     // 返回数据,相当于 原生里面的res.writeHead() res.send()
     ctx.body = '首页'
 })
 
 /**
- * 配置层级路由
+ * Consul健康检查URI
+ */
+router.get("/health", async (ctx) => {
+    console.log('Consul健康检查');
+    // 如何判断当前Node服务是否健康呢,应该是检查当前服务的所有API是否畅通,而不是当前接口畅通
+    ctx.body = 'UP'
+})
+
+/**
+ * 根路由中配置子路由
+ * router.routes() 返回一个中间件，这个中间件根据请求分派路由
+ * router.allowedMethods([options]) 根据不同类型（也就是 options 参数）的请求允许请求头包含的方法，返回不同的中间件，以及响应 405 [不被允许] 和 501 [未实现]
+ * router.use([path], middleware) 在路由中使用中间件，中间件运行的顺序是 .use() 方法调用的顺序
  */
 const index = require("./routes/index.js")
 router.use("/index", index.routes())
 
 const search = require("./routes/search.js")
-router.use("/search", index.routes())
+router.use("/search", search.routes(), search.allowedMethods())
 
 const layout = require("./routes/layout.js")
 router.use("/layout", layout.routes())
 
+const remote = require("./routes/remote.js")
+router.use("/remote", remote.routes())
+
 /**
- * 引入Koa第三方中间件
+ * 引入Koa第三方中间件,并注册,需要注意的是中间件的执行顺序不是顺序执行,而是洋葱模型
  * router.allowedMethods()作用：这是官方文档推荐的用法 router.allowedMethods()
  * 用在了路由匹配router.routers()之后,所以当所有路由中间件最后调用,此时根据 ctx.status设置response响应头
  */
@@ -99,6 +114,8 @@ app
 
 /**
  * 监听端口 使用Koa生成器的话,端口配置在了bin/www.js中，默认端口3000
+ * listen() 方法只是在内部通过 http.createServer() 创建并返回一个 服务器，
+ * 给定的参数都会传递给创建的 server.listen(...args) 开启 HTTP 服务
  */
 // app.listen(3000)
 
