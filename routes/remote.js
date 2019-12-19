@@ -14,6 +14,52 @@ const SERVICE_COLLECTION = new Map();
  * 得到注册到Consul上的所有服务
  */
 router.get("/allService", async (ctx, next) => {
+    let ret = await consul.getService();
+    ctx.body = ret;
+})
+
+/**
+ * 调用Java远程服务
+ */
+router.get('/javaMicroService', async (ctx) => {
+    await buildServiceList();
+    let path = 'http://' + SERVICE_COLLECTION.get('consul-service') + "/health"
+    console.log(`请求地址：${path}`)
+    let response = await axios({
+        url: "/health",
+        baseURL: 'http://' + SERVICE_COLLECTION.get('consul-service'),
+        method: "GET",
+        headers: {"Content-Type": "application/x-www-form-urlencoded;charset=utf-8"},
+    })
+    // 返回的response是一个json字符串,包含了请求信息等,真正的数据在data里
+    console.log(response);
+    ctx.body = response.data;
+})
+
+/**
+ * 调用Python远程服务
+ */
+router.get('/pythonMicroService', async (ctx) => {
+    await buildServiceList();
+    let path = 'http://' + SERVICE_COLLECTION.get('django_service') + "/health"
+    console.log(`请求地址：${path}`)
+    let response = await axios({
+        url: "/health",
+        baseURL: 'http://' + SERVICE_COLLECTION.get('django_service'),
+        method: "GET",
+        headers: {"Content-Type": "application/x-www-form-urlencoded;charset=utf-8"},
+    })
+    // 返回的response是一个json字符串,包含了请求信息等,真正的数据在data里
+    console.log(response);
+    ctx.body = response.data;
+})
+
+/**
+ * 组装服务列表
+ * 将取到的服务列表封装到Map集合中
+ * @returns {Promise<void>}
+ */
+async function buildServiceList() {
     let ret = await consul.getService()
     let jsonStr = JSON.stringify(ret)
     console.log(`Consul上的所有服务:${jsonStr}`);
@@ -28,26 +74,7 @@ router.get("/allService", async (ctx, next) => {
     }
     // JSON数组有长度json.abc.length,如果单纯是json格式，那么不能直接使用json.length方式获取长度，而应该使用其他方法
     console.log(`Consul上的服务总数:${jsonObj.keys}`);
-
     console.log(SERVICE_COLLECTION);
-    ctx.body = ret;
-})
-
-/**
- * 调用远程服务
- */
-router.get('/consulHealth', async (ctx) => {
-    let path = 'http://' + SERVICE_COLLECTION.get('consul-service') + "/health"
-    console.log(`请求地址：${path}`)
-    let response = await axios({
-        url: "/health",
-        baseURL: 'http://' + SERVICE_COLLECTION.get('consul-service'),
-        method: "GET",
-        headers: {"Content-Type": "application/x-www-form-urlencoded;charset=utf-8"},
-    })
-    // 返回的response是一个json字符串,包含了请求信息等,真正的数据在data里
-    console.log(response);
-    ctx.body = response.data;
-})
+}
 
 module.exports = router;
